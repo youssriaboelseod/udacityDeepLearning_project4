@@ -13255,13 +13255,18 @@ replace processed_celeba_small/.DS_Store? [y]es, [n]o, [A]ll, [N]one, [r]ename: 
 
 
     
-    <span class="n">train_data</span><span class="o">=</span><span class="n">datasets</span><span class="o">.</span><span class="n">ImageFolder</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">target_transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">loader</span><span class="o">=&lt;</span><span class="n">function</span> <span class="n">default_loader</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">is_valid_file</span><span class="o">=</span><span class="kc">None</span>
+    <span class="n">train_data</span><span class="o">=</span><span class="n">datasets</span><span class="o">.</span><span class="n">ImageFolder</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">target_transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">loader</span><span class="o">=&lt;</span><span class="n">function</span> <span class="n">default_loader</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">is_valid_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">test_data</span><span class="o">=</span><span class="n">datasets</span><span class="o">.</span><span class="n">ImageFolder</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">target_transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">loader</span><span class="o">=&lt;</span><span class="n">function</span> <span class="n">default_loader</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">is_valid_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
      <span class="c1"># prepare data loader</span>
+                                    
     <span class="n">train_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
                                                <span class="n">num_workers</span><span class="o">=</span><span class="n">image_size</span><span class="p">)</span>
+    <span class="n">test_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+                                          <span class="n">num_workers</span><span class="o">=</span><span class="n">num_workers</span><span class="p">)</span>
                                            
                                                     
-    <span class="k">return</span> <span class="n">train_loader</span>
+    <span class="k">return</span> <span class="n">train_loader</span><span class="p">,</span><span class="n">test_loader</span>
 </pre></div>
 
     </div>
