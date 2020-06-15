@@ -13252,21 +13252,16 @@ replace processed_celeba_small/.DS_Store? [y]es, [n]o, [A]ll, [N]one, [r]ename: 
     
     <span class="c1"># TODO: Implement function and return a dataloader</span>
     <span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">()</span>
-
-
-    
-    <span class="n">train_data</span><span class="o">=</span><span class="n">datasets</span><span class="o">.</span><span class="n">ImageFolder</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">target_transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">loader</span><span class="o">=&lt;</span><span class="n">function</span> <span class="n">default_loader</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">is_valid_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">test_data</span><span class="o">=</span><span class="n">datasets</span><span class="o">.</span><span class="n">ImageFolder</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">target_transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">loader</span><span class="o">=&lt;</span><span class="n">function</span> <span class="n">default_loader</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">is_valid_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">train_data</span><span class="o">=</span><span class="n">datasets</span><span class="o">.</span><span class="n">DatasetFolder</span><span class="p">(</span><span class="n">data_dir</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">train_transforms</span><span class="p">,</span> <span class="n">target_transform</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">loader</span><span class="o">=&lt;</span><span class="n">function</span> <span class="n">default_loader</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">is_valid_file</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="c1">#test_data=datasets.DatasetFolder(data_dir, transform=test_transforms, target_transform=None, loader=&lt;function default_loader&gt;, is_valid_file=None)</span>
 
      <span class="c1"># prepare data loader</span>
                                     
     <span class="n">train_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
                                                <span class="n">num_workers</span><span class="o">=</span><span class="n">image_size</span><span class="p">)</span>
-    <span class="n">test_loader</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
-                                          <span class="n">num_workers</span><span class="o">=</span><span class="n">num_workers</span><span class="p">)</span>
-                                           
-                                                    
-    <span class="k">return</span> <span class="n">train_loader</span><span class="p">,</span><span class="n">test_loader</span>
+    <span class="c1">#test_loader = torch.utils.data.DataLoader(test_data, batch_size=batch_size,</span>
+                                          <span class="n">num_workers</span><span class="o">=</span><span class="n">image_size</span><span class="p">)</span>               
+    <span class="k">return</span> <span class="n">train_loader</span>
 </pre></div>
 
     </div>
@@ -13293,7 +13288,7 @@ replace processed_celeba_small/.DS_Store? [y]es, [n]o, [A]ll, [N]one, [r]ename: 
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Define function hyperparameters</span>
 <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">64</span>
-<span class="n">img_size</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="n">img_size</span> <span class="o">=</span> <span class="mi">30</span><span class="o">*</span><span class="mi">30</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">DON&#39;T MODIFY ANYTHING IN THIS CELL THAT IS BELOW THIS LINE</span>
@@ -13366,7 +13361,9 @@ replace processed_celeba_small/.DS_Store? [y]es, [n]o, [A]ll, [N]one, [r]ename: 
 <span class="sd">       This function assumes that the input x is already scaled from 0-1.&#39;&#39;&#39;</span>
     <span class="c1"># assume x is scaled to (0, 1)</span>
     <span class="c1"># scale to feature_range and return scaled x</span>
-    
+    <span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="o">=</span><span class="n">feature_range</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="o">*</span><span class="p">(</span><span class="nb">max</span><span class="o">-</span><span class="nb">min</span><span class="p">)</span><span class="o">+</span><span class="nb">min</span>
+        
     <span class="k">return</span> <span class="n">x</span>
 </pre></div>
 
@@ -13440,7 +13437,17 @@ replace processed_celeba_small/.DS_Store? [y]es, [n]o, [A]ll, [N]one, [r]ename: 
         <span class="nb">super</span><span class="p">(</span><span class="n">Discriminator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
         <span class="c1"># complete init function</span>
+        <span class="c1"># define hidden linear layers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_dim</span><span class="o">*</span><span class="mi">4</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc3</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_dim</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">)</span>
         
+        <span class="c1"># final fully-connected layer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc4</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="n">output_size</span><span class="p">)</span>
+        
+        <span class="c1"># dropout layer </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.3</span><span class="p">)</span>
+
 
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -13449,7 +13456,20 @@ replace processed_celeba_small/.DS_Store? [y]es, [n]o, [A]ll, [N]one, [r]ename: 
 <span class="sd">        :return: Discriminator logits; the output of the neural network</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># define feedforward behavior</span>
-        
+                <span class="c1"># flatten image</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="o">*</span><span class="mi">28</span><span class="p">)</span>
+
+        <span class="c1"># pass x through all layers</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">leaky_relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mf">0.2</span><span class="p">)</span> <span class="c1"># (input, negative_slope=0.2)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">leaky_relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mf">0.2</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">leaky_relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fc3</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mf">0.2</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="c1"># apply leaky relu activation to all hidden layers</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc4</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="n">x</span>
 
 
@@ -13492,7 +13512,17 @@ replace processed_celeba_small/.DS_Store? [y]es, [n]o, [A]ll, [N]one, [r]ename: 
         <span class="nb">super</span><span class="p">(</span><span class="n">Generator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
         <span class="c1"># complete init function</span>
+                <span class="c1"># define hidden linear layers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc3</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_dim</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span>
         
+        <span class="c1"># final fully-connected layer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc4</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_dim</span><span class="o">*</span><span class="mi">4</span><span class="p">,</span> <span class="n">output_size</span><span class="p">)</span>
+        
+        <span class="c1"># dropout layer </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.3</span><span class="p">)</span>
+
 
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -13686,14 +13716,29 @@ replace processed_celeba_small/.DS_Store? [y]es, [n]o, [A]ll, [N]one, [r]ename: 
     <span class="sd">&#39;&#39;&#39;Calculates how close discriminator outputs are to being real.</span>
 <span class="sd">       param, D_out: discriminator logits</span>
 <span class="sd">       return: real loss&#39;&#39;&#39;</span>
-    <span class="n">loss</span> <span class="o">=</span> 
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="n">D_out</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="c1"># label smoothing</span>
+    <span class="k">if</span> <span class="n">smooth</span><span class="p">:</span>
+        <span class="c1"># smooth, real labels = 0.9</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)</span><span class="o">*</span><span class="mf">0.9</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)</span> <span class="c1"># real labels = 1</span>
+        
+    <span class="c1"># numerically stable loss</span>
+    <span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">BCEWithLogitsLoss</span><span class="p">()</span>
+    <span class="c1"># calculate loss</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">D_out</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span> <span class="n">labels</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">loss</span>
 
 <span class="k">def</span> <span class="nf">fake_loss</span><span class="p">(</span><span class="n">D_out</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Calculates how close discriminator outputs are to being fake.</span>
 <span class="sd">       param, D_out: discriminator logits</span>
 <span class="sd">       return: fake loss&#39;&#39;&#39;</span>
-    <span class="n">loss</span> <span class="o">=</span> 
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="n">D_out</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)</span> <span class="c1"># fake labels = 0</span>
+    <span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">BCEWithLogitsLoss</span><span class="p">()</span>
+    <span class="c1"># calculate loss</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">D_out</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span> <span class="n">labels</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">loss</span>
 </pre></div>
 
@@ -13718,8 +13763,8 @@ replace processed_celeba_small/.DS_Store? [y]es, [n]o, [A]ll, [N]one, [r]ename: 
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
 
 <span class="c1"># Create optimizers for the discriminator D and generator G</span>
-<span class="n">d_optimizer</span> <span class="o">=</span> 
-<span class="n">g_optimizer</span> <span class="o">=</span> 
+<span class="n">d_optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="p">)</span>
+<span class="n">g_optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="p">)</span>
 </pre></div>
 
     </div>
