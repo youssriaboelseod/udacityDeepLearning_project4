@@ -50,12 +50,9 @@ transform = transforms.ToTensor()
 # get the training datasets
 train_data = datasets.MNIST(root='data', train=True,
                                    download=True, transform=transform)
-
 # prepare data loader
 train_loader = torch.utils.data.DataLoader(train_data, batch_size=batch_size,
                                            num_workers=num_workers)
-
-
 # ### Visualize the data
 
 # In[ ]:
